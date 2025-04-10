@@ -19,22 +19,25 @@ FASTQ_DEST="../data/raw/fastq/${STUDY_ID}"
 # -p tells it to make the parent directory if the parent doesn't exist yet
 mkdir -p $FASTQ_DEST
 
+if [ ! -e "${FASTQ_DEST}/${FASTQ_R1}" ]; then #if the file doesn't exist, then we download it
+    # Download the R1 file
+    curl -O ${FASTQ_URL}/${FASTQ_R1}
 
-# Download the R1 file
-curl -O ${FASTQ_URL}/${FASTQ_R1}
-
-# Move file to destination directory
-mv $FASTQ_R1 $FASTQ_DEST
+    # Move file to destination directory
+    mv $FASTQ_R1 $FASTQ_DEST
+fi  #to indent multiple lines, press command and ]
 
 # Count the lines in the R1 file
 echo "The number of lines in $FASTQ_R1 is:"
 gunzip -c ${FASTQ_DEST}/${FASTQ_R1} | wc -l
 
-# Download the R2 file
-curl -O ${FASTQ_URL}/${FASTQ_R2}
+    if [ ! -e "${FASTQ_DEST}/${FASTQ_R2}" ]; then
+    # Download the R2 file
+    curl -O ${FASTQ_URL}/${FASTQ_R2}
 
-# Move file to destination directory
-mv $FASTQ_R2 $FASTQ_DEST
+    # Move file to destination directory
+    mv $FASTQ_R2 $FASTQ_DEST
+    fi 
 
 # Count the lines in the R2 file
 echo "The number of lines in $FASTQ_R2 is:"
